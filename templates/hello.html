@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as macros  %}
+
+
+{% block title %}
+    {{super()}}
+    Flask con Jinja
+{% endblock %}
+
+
+{% block content %} 
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+
+    {% if user_ip %}
+        <p>La ip del usuario es {{user_ip}}</p>    
+    {% else %}
+        <a href="{{ url_for('index' ) }}">Ir a index</a>
+    {% endif %}
+
+    <ul>
+    {% for todo in todos %}
+        {{ macros.render_todo(todo)  }}
+    {% endfor %}
+    </ul>
+
+    <img src="{{ url_for('static', filename='images/python.jpg' ) }}" alt="python" style="width: 200px; border-radius: 10px;">
+{% endblock %}
+
+
+
+
