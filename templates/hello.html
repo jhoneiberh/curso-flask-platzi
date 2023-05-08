@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% import 'macros.html' as macros  %}
+{% import 'bootstrap/wtf.html' as wtf  %}
 
 
 {% block title %}
@@ -11,11 +12,35 @@
 {% block content %} 
     <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
 
+    {% if username %}
+        <h1>Bienvenido {{username | capitalize}}</h1>
+    {% else %}
+        <h1>No username</h1>
+    {% endif %}
+
     {% if user_ip %}
         <p>La ip del usuario es {{user_ip}}</p>    
     {% else %}
         <a href="{{ url_for('index' ) }}">Ir a index</a>
     {% endif %}
+
+    <div class="container">
+        <form class="m-auto w-25" action="{{ url_for('hello' ) }}" method="POST">
+            {{login_form.csrf_token}}
+            <div class="form-group">
+                {{login_form.username.label}}
+                {{login_form.username(class_='form-control')}}
+            </div>
+            <div class="form-group">
+                {{login_form.password.label}}
+                {{login_form.password(class_='form-control')}}
+            </div>
+            {{login_form.submit(class_='btn btn-primary w-100')}}
+            
+        </form>
+        <!-- {{wtf.quick_form(login_form)}} -->
+    </div>
+
 
     <ul>
     {% for todo in todos %}
